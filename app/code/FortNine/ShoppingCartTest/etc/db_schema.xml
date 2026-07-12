@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="fortnine_cart_item" resource="default" engine="innodb" comment="Shopping Cart Test Items">
+    <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+    <column xsi:type="varchar" name="session_id" nullable="false" length="64" comment="Session Identifier"/>
+    <column xsi:type="varchar" name="sku" nullable="false" length="64" comment="Product SKU"/>
+    <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Product Name"/>
+    <column xsi:type="decimal" name="price" scale="4" precision="12" nullable="false" comment="Unit Price"/>
+    <column xsi:type="int" name="qty" nullable="false" default="1" comment="Quantity"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="entity_id"/>
+    </constraint>
+    <constraint xsi:type="unique" referenceId="FORTNINE_CART_ITEM_SESSION_SKU_UNIQUE">
+      <column name="session_id"/>
+      <column name="sku"/>
+    </constraint>
+    <index referenceId="FORTNINE_CART_ITEM_SESSION_ID" indexType="btree">
+      <column name="session_id"/>
+    </index>
+  </table>
+</schema>

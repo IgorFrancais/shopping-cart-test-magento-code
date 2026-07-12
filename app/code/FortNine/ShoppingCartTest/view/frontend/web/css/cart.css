@@ -1,0 +1,35 @@
+.shopping-cart-test {
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.shopping-cart-test .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.shopping-cart-test .card {
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.shopping-cart-test table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.shopping-cart-test th,
+.shopping-cart-test td {
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+}
+
+.shopping-cart-test .actions,
+.shopping-cart-test .totals {
+  margin-top: 1rem;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "fortnine/module-shopping-cart-test",
+  "description": "Magento 2 shopping cart test module",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "FortNine\\ShoppingCartTest\\": ""
+    }
+  }
+}
