@@ -10,8 +10,6 @@ use Magento\Framework\Session\SessionManagerInterface;
 
 class CartRepository
 {
-//    private const TABLE = 'fortnine_cart_item';
-
     public function __construct(
         private readonly ResourceConnection $resourceConnection,
         private readonly SessionManagerInterface $sessionManager
@@ -23,26 +21,6 @@ class CartRepository
      */
     public function getItems(): array
     {
-//        $connection = $this->resourceConnection->getConnection();
-//        $table = $this->resourceConnection->getTableName(ConfigInterface::TABLE);
-//
-//        $select = $connection->select()
-//            ->from($table, ['sku', 'name', 'price', 'qty'])
-//            ->where('session_id = ?', $this->getSessionId())
-//            ->order('entity_id ASC');
-//
-//        $rows = $connection->fetchAll($select);
-//        $rows = $this->getAllItems();
-//
-//        return array_map(static function (array $row): array {
-//            return [
-//                'sku' => (string) $row['sku'],
-//                'name' => (string) $row['name'],
-//                'price' => (float) $row['price'],
-//                'qty' => (int) $row['qty'],
-//            ];
-//        }, $this->getAllItems());
-
         return $this->formatItems($this->getAllItems());
     }
 

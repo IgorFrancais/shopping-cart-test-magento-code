@@ -72,7 +72,7 @@ class UpdateTest extends TestCase
 
         $this->redirect->expects(self::once())
             ->method('redirect')
-            ->with($this->response, ConfigInterface::URL_CART_INDEX, []);
+            ->with($this->response, ConfigInterface::URL_CART_VIEW, []);
 
         self::assertSame($this->response, $this->controller->execute());
     }
@@ -101,7 +101,7 @@ class UpdateTest extends TestCase
 
         $this->redirect->expects(self::once())
             ->method('redirect')
-            ->with($this->response, ConfigInterface::URL_CART_INDEX, []);
+            ->with($this->response, ConfigInterface::URL_CART_VIEW, []);
 
         self::assertSame($this->response, $this->controller->execute());
         self::assertSame([

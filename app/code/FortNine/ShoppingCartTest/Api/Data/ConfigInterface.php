@@ -12,6 +12,7 @@ interface ConfigInterface
     public const string URL_CART_ADD = 'shoppingcarttest/cart/add';
     public const string URL_CART_UPDATE = 'shoppingcarttest/cart/update';
     public const string URL_CART_INDEX = 'shoppingcarttest/cart/index';
+    public const string URL_CART_VIEW = 'shoppingcarttest/cart/view';
 
     public const TABLE = 'fortnine_cart_item';
 

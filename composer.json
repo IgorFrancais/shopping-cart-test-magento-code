@@ -69,11 +69,9 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
         "dg/bypass-finals": "^1.4",
         "friendsofphp/php-cs-fixer": "^3.22",
-        "magento/magento-coding-standard": "*",
+        "magento/magento-coding-standard": "^40.0",
         "magento/magento2-functional-testing-framework": "^5.0",
-        "pdepend/pdepend": "3.x-dev",
-        "phpmd/phpmd": "3.x-dev",
-        "phpstan/phpstan": "^1.9",
+        "phpmd/phpmd": "^2.15",
         "phpunit/phpunit": "^10.5",
         "symfony/finder": "^6.4",
         "magento/magento-allure-phpunit": "^3.0.2"

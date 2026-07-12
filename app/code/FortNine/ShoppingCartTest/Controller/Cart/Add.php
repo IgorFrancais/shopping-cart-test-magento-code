@@ -15,16 +15,8 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Quote\Api\Data\CartItemInterface;
 
-//class Add extends Action
 class Add implements HttpPostActionInterface
 {
-//    private const CATALOG = [
-//        'HELMET-001' => ['name' => 'Trail Helmet', 'price' => 79.99],
-//        'GLOVES-001' => ['name' => 'All-Terrain Gloves', 'price' => 32.50],
-//        'PACK-001' => ['name' => 'Hydration Pack', 'price' => 54.25],
-//        'LIGHT-001' => ['name' => 'LED Headlight', 'price' => 24.75],
-//    ];
-
     private RequestInterface $request;
 
     private MessageManagerInterface $messageManager;
@@ -43,9 +35,7 @@ class Add implements HttpPostActionInterface
 
     public function execute()
     {
-//        $sku = (string) $this->getRequest()->getParam(CartItemInterface::KEY_SKU, '');
         $sku = (string) $this->request->getParam(CartItemInterface::KEY_SKU, '');
-//        $qty = max(1, (int) $this->getRequest()->getParam(CartItemInterface::KEY_QTY, 1));
         $qty = max(1, (int) $this->request->getParam(CartItemInterface::KEY_QTY, 1));
 
         if (isset(ConfigInterface::CATALOG[$sku])) {
@@ -60,15 +50,13 @@ class Add implements HttpPostActionInterface
             $this->messageManager->addErrorMessage(__(ConfigInterface::MSG_UNKNOWN_SKU));
         }
 
-        return $this->makeRedirect(ConfigInterface::URL_CART_INDEX);
+        return $this->makeRedirect(ConfigInterface::URL_CART_VIEW);
     }
 
     private function makeRedirect($path, $arguments = [])
     {
-//        $this->redirect->redirect($this->getResponse(), $path, $arguments);
         $this->redirect->redirect($this->response, $path, $arguments);
-//        return $this->getResponse();
-//
+
         return $this->response;
     }
 }

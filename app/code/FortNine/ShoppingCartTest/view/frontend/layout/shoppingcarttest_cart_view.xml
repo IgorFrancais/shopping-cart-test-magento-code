@@ -5,7 +5,7 @@
   </head>
   <body>
     <referenceContainer name="content">
-      <block class="FortNine\ShoppingCartTest\Block\Cart" name="shoppingcarttest.catalog" template="FortNine_ShoppingCartTest::catalog.phtml"/>
+      <block class="FortNine\ShoppingCartTest\Block\Cart" name="shoppingcarttest.cart" template="FortNine_ShoppingCartTest::cart.phtml"/>
     </referenceContainer>
   </body>
 </page>

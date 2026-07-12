@@ -7,8 +7,7 @@ namespace FortNine\ShoppingCartTest\Controller\Cart;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
 
-//class Index extends Action implements HttpGetActionInterface
-class Index implements HttpGetActionInterface
+class View implements HttpGetActionInterface
 {
     public function __construct(private readonly PageFactory $resultPageFactory)
     {

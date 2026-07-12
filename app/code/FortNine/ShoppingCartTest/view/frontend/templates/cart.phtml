@@ -15,24 +15,10 @@ $totals = $block->getTotals();
 <div class="shopping-cart-test">
   <h1>Shopping Cart Test (Magento)</h1>
 
-  <section class="catalog">
-    <h2>Catalog</h2>
-    <div class="cards">
-      <?php foreach ($block->getCatalog() as $product): ?>
-        <article class="card">
-          <h3><?= $escaper->escapeHtml($product['name']) ?></h3>
-          <p>SKU: <?= $escaper->escapeHtml($product['sku']) ?></p>
-          <p>$<?= number_format((float) $product['price'], 2) ?></p>
-          <form method="post" action="<?= $escaper->escapeUrl($block->getUrl(ConfigInterface::URL_CART_ADD)) ?>">
-            <input type="hidden" name="form_key" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
-            <input type="hidden" name="sku" value="<?= $escaper->escapeHtmlAttr($product['sku']) ?>">
-            <input type="number" min="1" max="50" name="qty" value="1">
-            <button type="submit">Add To Cart</button>
-          </form>
-        </article>
-      <?php endforeach; ?>
-    </div>
-  </section>
+  <nav class="section-nav">
+    <a href="<?= $escaper->escapeUrl($block->getUrl(ConfigInterface::URL_CART_INDEX)) ?>">Catalog</a>
+    <strong>Your Cart</strong>
+  </nav>
 
   <section class="cart">
     <h2>Your Cart</h2>
@@ -57,11 +43,11 @@ $totals = $block->getTotals();
               <tr>
                 <td><?= $escaper->escapeHtml($item['name']) ?></td>
                 <td><?= $escaper->escapeHtml($item['sku']) ?></td>
-                <td>$<?= $block->formatNumber((float) $totals['price']) ?></td>
+                <td>$<?= $block->formatNumber((float) $item['price']) ?></td>
                 <td>
                   <input type="number" min="0" max="99" name="qty[<?= $escaper->escapeHtmlAttr($item['sku']) ?>]" value="<?= (int) $item['qty'] ?>">
                 </td>
-                <td>$<?= $block->formatNumber((float) $totals['line_total']) ?></td>
+                <td>$<?= $block->formatNumber((float) $item['line_total']) ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
