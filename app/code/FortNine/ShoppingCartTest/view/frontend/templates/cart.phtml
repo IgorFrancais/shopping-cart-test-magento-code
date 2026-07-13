@@ -1,0 +1,70 @@
+<?php
+
+declare(strict_types=1);
+
+use FortNine\ShoppingCartTest\Api\Data\ConfigInterface;
+
+/**
+ * @var \FortNine\ShoppingCartTest\Block\Cart $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$items = $block->getItems();
+$totals = $block->getTotals();
+?>
+<div class="shopping-cart-test">
+  <h1>Shopping Cart Test (Magento)</h1>
+
+  <nav class="section-nav">
+    <a href="<?= $escaper->escapeUrl($block->getUrl(ConfigInterface::URL_CART_INDEX)) ?>">Catalog</a>
+    <strong>Your Cart</strong>
+  </nav>
+
+  <section class="cart">
+    <h2>Your Cart</h2>
+
+    <?php if (!$items): ?>
+      <p>Cart is empty.</p>
+    <?php else: ?>
+      <form method="post" action="<?= $escaper->escapeUrl($block->getUrl(ConfigInterface::URL_CART_UPDATE)) ?>">
+        <input type="hidden" name="form_key" value="<?= $escaper->escapeHtmlAttr($block->getFormKey()) ?>">
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>SKU</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Line Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($items as $item): ?>
+              <tr>
+                <td><?= $escaper->escapeHtml($item['name']) ?></td>
+                <td><?= $escaper->escapeHtml($item['sku']) ?></td>
+                <td>$<?= $block->formatNumber((float) $item['price']) ?></td>
+                <td>
+                  <input type="number" min="0" max="99" name="qty[<?= $escaper->escapeHtmlAttr($item['sku']) ?>]" value="<?= (int) $item['qty'] ?>">
+                </td>
+                <td>$<?= $block->formatNumber((float) $item['line_total']) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+
+        <div class="actions">
+          <button type="submit">Update Quantities</button>
+          <button type="submit" name="cart_action" value="clear">Clear Cart</button>
+        </div>
+      </form>
+
+      <aside class="totals">
+        <p>Subtotal: <strong>$<?= $block->formatNumber((float) $totals['subtotal']) ?></strong></p>
+        <p>GST (5%): <strong>$<?= $block->formatNumber((float) $totals['gst']) ?></strong></p>
+        <p>QST (9.975%): <strong>$<?= $block->formatNumber((float) $totals['qst']) ?></strong></p>
+        <p>Grand Total: <strong>$<?= $block->formatNumber((float) $totals['grand_total']) ?></strong></p>
+      </aside>
+    <?php endif; ?>
+  </section>
+</div>

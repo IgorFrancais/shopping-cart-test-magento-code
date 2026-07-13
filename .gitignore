@@ -1,45 +1,28 @@
-#--------------------------#
-# Magento Default Files    #
-#--------------------------#
+*
+!/app
+!/app/code
+!/app/code/**
+!/app/design
+!/app/design/**
+!/app/etc
+!/app/etc/config.php
 
-/PATCH_*.sh
+!/bin
+!/bin/*
+/bin/magento
+/bin/.htaccess
 
-/app/etc/local.xml
+!/dev
 
-/media/*
-!/media/.htaccess
+!/pub
+!/pub/media
+!/pub/media/.htaccess
 
-!/media/customer
-/media/customer/*
-!/media/customer/.htaccess
+!/.gitignore
 
-!/media/dhl
-/media/dhl/*
-!/media/dhl/logo.jpg
+!/composer.json
+!/composer.lock
 
-!/media/downloadable
-/media/downloadable/*
-!/media/downloadable/.htaccess
-
-!/media/xmlconnect
-/media/xmlconnect/*
-
-!/media/xmlconnect/custom
-/media/xmlconnect/custom/*
-!/media/xmlconnect/custom/ok.gif
-
-!/media/xmlconnect/original
-/media/xmlconnect/original/*
-!/media/xmlconnect/original/ok.gif
-
-!/media/xmlconnect/system
-/media/xmlconnect/system/*
-!/media/xmlconnect/system/ok.gif
-
-/var/*
-!/var/.htaccess
-
-!/var/package
-/var/package/*
-!/var/package/*.xml
-
+!/LICENSE.txt
+#pub/media/*
+#!/pub/media/.htaccess
