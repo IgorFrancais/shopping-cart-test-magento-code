@@ -42,6 +42,7 @@ In Magento root, run:
 - GitHub Copilot
 - PHPStorm 2026.1.4
 - Sequel Ace 5.3.0
+- Docker Desktop 4.36.0
 
 ## Online Demo
 
