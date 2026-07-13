@@ -6,13 +6,13 @@ namespace FortNine\ShoppingCartTest\Model;
 
 use FortNine\ShoppingCartTest\Api\Data\ConfigInterface;
 use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Session\SessionManagerInterface;
+use Magento\Framework\Data\Form\FormKey;
 
 class CartRepository
 {
     public function __construct(
         private readonly ResourceConnection $resourceConnection,
-        private readonly SessionManagerInterface $sessionManager
+        private readonly FormKey $formKey
     ) {
     }
 
@@ -81,7 +81,7 @@ class CartRepository
 
     private function getSessionId(): string
     {
-        return (string) $this->sessionManager->getSessionId();
+        return (string) $this->formKey->getFormKey();
     }
 
     private function getAllItems(): array

@@ -50,7 +50,14 @@ class Add implements HttpPostActionInterface
             $this->messageManager->addErrorMessage(__(ConfigInterface::MSG_UNKNOWN_SKU));
         }
 
-        return $this->makeRedirect(ConfigInterface::URL_CART_VIEW);
+        return $this->redirectToCartView();
+    }
+
+    private function redirectToCartView(): ResponseInterface
+    {
+        return $this->makeRedirect(ConfigInterface::URL_CART_VIEW, [
+            '_query' => ['cart_refresh' => (string) microtime(true)],
+        ]);
     }
 
     private function makeRedirect($path, $arguments = [])

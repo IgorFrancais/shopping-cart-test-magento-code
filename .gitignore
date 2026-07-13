@@ -17,6 +17,8 @@
 !/pub
 !/pub/media
 !/pub/media/.htaccess
+!/pub/media/demo
+!/pub/media/demo/*
 
 !/.gitignore
 

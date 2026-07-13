@@ -38,7 +38,7 @@ class Update implements HttpPostActionInterface
         if ($action === 'clear') {
             $this->cartRepository->clear();
             $this->messageManager->addSuccessMessage(__(ConfigInterface::MSG_CART_CLEARED));
-            return $this->makeRedirect(ConfigInterface::URL_CART_VIEW);
+            return $this->redirectToCartView();
         }
 
         $quantities = (array) $this->request->getParam(CartItemInterface::KEY_QTY, []);
@@ -48,7 +48,14 @@ class Update implements HttpPostActionInterface
 
         $this->messageManager->addSuccessMessage(__(ConfigInterface::MSG_CART_UPDATED));
 
-        return $this->makeRedirect(ConfigInterface::URL_CART_VIEW);
+        return $this->redirectToCartView();
+    }
+
+    private function redirectToCartView(): ResponseInterface
+    {
+        return $this->makeRedirect(ConfigInterface::URL_CART_VIEW, [
+            '_query' => ['cart_refresh' => (string) microtime(true)],
+        ]);
     }
 
     private function makeRedirect(string $path, array $arguments = []): ResponseInterface
