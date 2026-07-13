@@ -22,6 +22,10 @@
 
 !/.gitignore
 !/.gitpod*
+!/.devcontainer
+!/.devcontainer/**
+!/.ona
+!/.ona/automations.yaml
 
 !/composer.json
 !/composer.lock

@@ -1,0 +1,131 @@
+services:
+  mysql:
+    name: MySQL
+    description: Database for the Magento application
+    triggeredBy:
+      - manual
+      - postEnvironmentStart
+    readinessTimeout: 600s
+    commands:
+      start: |
+        gitpod environment port open 3306 --dont-wait --admission creator_only --name MySQL || true
+        if docker inspect magento-mysql >/dev/null 2>&1; then
+          docker start -a magento-mysql
+        else
+          docker run --name magento-mysql \
+            -p 3306:3306 \
+            -e MYSQL_ALLOW_EMPTY_PASSWORD=yes \
+            -e MYSQL_DATABASE=magento \
+            mysql:8.0
+        fi
+      ready: docker exec magento-mysql mysqladmin ping -h 127.0.0.1 --silent
+      stop: docker stop magento-mysql
+
+  opensearch:
+    name: OpenSearch
+    description: Search engine for Magento catalog search
+    triggeredBy:
+      - manual
+      - postEnvironmentStart
+    readinessTimeout: 600s
+    commands:
+      start: |
+        gitpod environment port open 9200 --dont-wait --admission creator_only --name OpenSearch || true
+        if docker inspect magento-opensearch >/dev/null 2>&1; then
+          docker start -a magento-opensearch
+        else
+          docker run --name magento-opensearch \
+            -p 9200:9200 \
+            -e discovery.type=single-node \
+            -e plugins.security.disabled=true \
+            -e OPENSEARCH_JAVA_OPTS="-Xms512m -Xmx512m" \
+            opensearchproject/opensearch:2.11.0
+        fi
+      ready: curl -fs http://localhost:9200 >/dev/null
+      stop: docker stop magento-opensearch
+
+  magento:
+    name: Magento
+    description: Magento storefront served through PHP's development server
+    triggeredBy:
+      - manual
+      - postEnvironmentStart
+    readinessTimeout: 300s
+    commands:
+      start: |
+        gitpod environment port open 8080 --dont-wait --admission creator_only --name Magento || true
+        php -S 0.0.0.0:8080 -t pub pub/index.php
+      ready: curl -sI http://localhost:8080/ >/dev/null
+
+tasks:
+  install-dependencies:
+    name: Install dependencies
+    description: Install PHP dependencies from composer.lock
+    triggeredBy:
+      - manual
+      - postDevcontainerStart
+      - prebuild
+    command: composer install --no-interaction --prefer-dist
+
+  install-magento:
+    name: Install Magento
+    description: Initialize Magento with the local MySQL and OpenSearch services
+    triggeredBy:
+      - manual
+      - postDevcontainerStart
+    dependsOn:
+      - install-dependencies
+    command: |
+      if [ -f app/etc/env.php ]; then
+        bin/magento cache:flush
+        exit 0
+      fi
+
+      until docker exec magento-mysql mysqladmin ping -h 127.0.0.1 --silent; do
+        echo "Waiting for MySQL..."
+        sleep 2
+      done
+
+      until curl -fs http://localhost:9200 >/dev/null; do
+        echo "Waiting for OpenSearch..."
+        sleep 2
+      done
+
+      gitpod environment port open 8080 --dont-wait --admission creator_only --name Magento || true
+      BASE_URL="$(gitpod environment port get 8080 -f URL 2>/dev/null || true)"
+      if [ -z "$BASE_URL" ]; then
+        BASE_URL="http://localhost:8080"
+      fi
+      BASE_URL="${BASE_URL%/}/"
+
+      bin/magento setup:install \
+        --base-url="$BASE_URL" \
+        --db-host=127.0.0.1 \
+        --db-name=magento \
+        --db-user=root \
+        --db-password= \
+        --search-engine=opensearch \
+        --opensearch-host=127.0.0.1 \
+        --opensearch-port=9200 \
+        --admin-firstname=Admin \
+        --admin-lastname=User \
+        --admin-email=admin@example.com \
+        --admin-user=admin \
+        --admin-password='Admin123!' \
+        --backend-frontname=admin \
+        --language=en_US \
+        --currency=USD \
+        --timezone=America/Montreal \
+        --use-rewrites=1
+
+      bin/magento deploy:mode:set developer
+      bin/magento cache:flush
+
+  build-static-content:
+    name: Build static content
+    description: Deploy Magento static view files
+    triggeredBy:
+      - manual
+    dependsOn:
+      - install-magento
+    command: bin/magento setup:static-content:deploy -f
