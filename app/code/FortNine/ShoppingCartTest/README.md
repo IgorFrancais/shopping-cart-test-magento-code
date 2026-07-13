@@ -60,3 +60,24 @@ cd $_
 # Run this automated one-liner from the directory you want to install your project.
 curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/onelinesetup | bash -s -- magento.test community 2.4.8-p5
 ```
+
+##  Demo result locally
+1. Go to page `/shoppingcarttest/cart/index` to see the Catalog page emulation. 
+   ![shoping_cart_catalog_page_table.png](../../../../pub/media/demo/shoping_cart_catalog_page_table.png)
+   Note: cart page is empty and table `fortnine_cart_item` is empty.
+
+   
+2. Add any product(s) with any quontytyt > 0 to cart.
+   (Example: add Trail Helmet - 2,  see Cart, back to Catalog page (press Url for Catalog page) and add Hydration Pack - 5)
+   ![shoping_cart_page_table.png](../../../../pub/media/demo/shoping_cart_page_table.png)
+   
+3. Update Qty for each product in cart.
+   Select new Qty for products and press button "Update Quantities"
+
+   ![update_qty_gui.png](../../../../pub/media/demo/update_qty_gui.png)
+
+   ![updated_qty_gui_table.png](../../../../pub/media/demo/updated_qty_gui_table.png)
+
+   
+4. Press button "Clear Cart"
+   ![clear_cart.png](../../../../pub/media/demo/clear_cart.png)
