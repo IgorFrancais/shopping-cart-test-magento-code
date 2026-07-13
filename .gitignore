@@ -21,6 +21,7 @@
 !/pub/media/demo/*
 
 !/.gitignore
+!/.gitpod*
 
 !/composer.json
 !/composer.lock

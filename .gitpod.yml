@@ -1,0 +1,37 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Install Magento
+    init: |
+      sudo service mysql start
+      sudo service opensearch start
+
+      composer install
+
+      bin/magento setup:install \
+        --base-url=$(gp url 8080) \
+        --db-host=127.0.0.1 \
+        --db-name=magento \
+        --db-user=root \
+        --db-password= \
+        --search-engine=opensearch \
+        --opensearch-host=127.0.0.1 \
+        --opensearch-port=9200 \
+        --admin-firstname=Admin \
+        --admin-lastname=User \
+        --admin-email=admin@example.com \
+        --admin-user=admin \
+        --admin-password=Admin123! \
+        --backend-frontname=admin \
+        --language=en_US \
+        --currency=USD \
+        --timezone=America/Montreal \
+        --use-rewrites=1
+
+      bin/magento setup:static-content:deploy -f
+      bin/magento cache:flush
+
+ports:
+  - port: 8080
+    onOpen: open-preview
