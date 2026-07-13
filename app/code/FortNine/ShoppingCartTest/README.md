@@ -35,13 +35,13 @@ In Magento root, run:
 
 ## Tools Used
 
-- Magento 2
-- PHP 8+
-- MySQL (via Magento)
-- PHPUnit
+- Magento 2.4.8-p5
+- PHP 8.4.21
+- MariaDB 11
+- PHPUnit 10.5.64
 - GitHub Copilot
-- PHPStorm
-- Sequel Ace
+- PHPStorm 2026.1.4
+- Sequel Ace 5.3.0
 
 ## Online Demo
 
