@@ -7,29 +7,29 @@ namespace FortNine\ShoppingCartTest\Test\Unit\Model;
 use FortNine\ShoppingCartTest\Api\Data\ConfigInterface;
 use FortNine\ShoppingCartTest\Model\CartRepository;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\Session\SessionManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CartRepositoryTest extends TestCase
 {
     private ResourceConnection&MockObject $resourceConnection;
-    private SessionManagerInterface&MockObject $sessionManager;
+    private FormKey&MockObject $formKey;
     private AdapterInterface&MockObject $connection;
     private CartRepository $repository;
 
     protected function setUp(): void
     {
         $this->resourceConnection = $this->createMock(ResourceConnection::class);
-        $this->sessionManager = $this->createMock(SessionManagerInterface::class);
+        $this->formKey = $this->createMock(FormKey::class);
         $this->connection = $this->createMock(AdapterInterface::class);
 
         $this->resourceConnection->method('getConnection')->willReturn($this->connection);
         $this->resourceConnection->method('getTableName')->with(ConfigInterface::TABLE)->willReturn('fortnine_cart_item');
-        $this->sessionManager->method('getSessionId')->willReturn('session-1');
+        $this->formKey->method('getFormKey')->willReturn('form-key-1');
 
-        $this->repository = new CartRepository($this->resourceConnection, $this->sessionManager);
+        $this->repository = new CartRepository($this->resourceConnection, $this->formKey);
     }
 
     public function testGetItemsFormatsDatabaseRows(): void
@@ -105,7 +105,7 @@ class CartRepositoryTest extends TestCase
         $this->connection->expects(self::once())
             ->method('insert')
             ->with('fortnine_cart_item', [
-                'session_id' => 'session-1',
+                'session_id' => 'form-key-1',
                 'sku' => 'PACK-001',
                 'name' => 'Hydration Pack',
                 'price' => 54.25,
@@ -122,7 +122,7 @@ class CartRepositoryTest extends TestCase
         $this->connection->expects(self::once())
             ->method('delete')
             ->with('fortnine_cart_item', [
-                'session_id = ?' => 'session-1',
+                'session_id = ?' => 'form-key-1',
                 'sku = ?' => 'PACK-001',
             ]);
 
@@ -136,7 +136,7 @@ class CartRepositoryTest extends TestCase
         $this->connection->expects(self::once())
             ->method('update')
             ->with('fortnine_cart_item', ['qty' => 4], [
-                'session_id = ?' => 'session-1',
+                'session_id = ?' => 'form-key-1',
                 'sku = ?' => 'HELMET-001',
             ]);
 
@@ -149,7 +149,7 @@ class CartRepositoryTest extends TestCase
     {
         $this->connection->expects(self::once())
             ->method('delete')
-            ->with('fortnine_cart_item', ['session_id = ?' => 'session-1']);
+            ->with('fortnine_cart_item', ['session_id = ?' => 'form-key-1']);
 
         $this->repository->clear();
     }

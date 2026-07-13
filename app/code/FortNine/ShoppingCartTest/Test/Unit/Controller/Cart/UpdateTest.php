@@ -72,7 +72,14 @@ class UpdateTest extends TestCase
 
         $this->redirect->expects(self::once())
             ->method('redirect')
-            ->with($this->response, ConfigInterface::URL_CART_VIEW, []);
+            ->with(
+                $this->response,
+                ConfigInterface::URL_CART_VIEW,
+                self::callback(static function (array $arguments): bool {
+                    return isset($arguments['_query']['cart_refresh'])
+                        && (string) $arguments['_query']['cart_refresh'] !== '';
+                })
+            );
 
         self::assertSame($this->response, $this->controller->execute());
     }
@@ -101,7 +108,14 @@ class UpdateTest extends TestCase
 
         $this->redirect->expects(self::once())
             ->method('redirect')
-            ->with($this->response, ConfigInterface::URL_CART_VIEW, []);
+            ->with(
+                $this->response,
+                ConfigInterface::URL_CART_VIEW,
+                self::callback(static function (array $arguments): bool {
+                    return isset($arguments['_query']['cart_refresh'])
+                        && (string) $arguments['_query']['cart_refresh'] !== '';
+                })
+            );
 
         self::assertSame($this->response, $this->controller->execute());
         self::assertSame([
